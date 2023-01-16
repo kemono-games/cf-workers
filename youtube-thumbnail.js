@@ -2,12 +2,12 @@ const axios = require('axios')
 
 exports.handler = async (req, resp, context) => {
     const path = req.path
-    if (!/^\/[a-zA-Z0-9-]+\.jpg$/.test(path)) {
+    if (!/^\/[a-zA-Z0-9-_]+\.jpg$/.test(path)) {
       resp.setStatusCode(400)
       return resp.send('failed')
     }
 
-    const id = path.match(/^\/([a-zA-Z0-9-]+)\.jpg$/)[1]
+    const id = path.match(/^\/([a-zA-Z0-9-_]+)\.jpg$/)[1]
     const maxResUrl = `https://i3.ytimg.com/vi/${id}/maxresdefault.jpg`
     const hqUrl = `https://i3.ytimg.com/vi/${id}/hqdefault.jpg`
 
