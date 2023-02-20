@@ -18,11 +18,18 @@ exports.handler = async (req, resp, context) => {
       url = hqUrl
     }
     
-    const { data, headers } = await axios.get(url, { responseType: "arraybuffer" })
-    resp.setStatusCode(200)
-
-    for (const key in headers) {
-      resp.setHeader(key, headers[key])
+    try {
+      const { data, headers } = await axios.get(url, { responseType: "arraybuffer" })
+      resp.setStatusCode(200)
+  
+      for (const key in headers) {
+        resp.setHeader(key, headers[key])
+      }
+      resp.send(Buffer.from(data))
+    } catch(err) {
+      console.error('Fetch thumbnail failed. Url:', url)
+      console.error(err)
+      resp.setStatusCode(404)
+      resp.send('Fetch thumbnail failed.')
     }
-    resp.send(Buffer.from(data))
 }
